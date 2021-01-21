@@ -30,10 +30,20 @@ module.exports = {
     },
 
     buscar: function (req,res) {
-       
+      
+        const busqueda = req.query.busqueda;
+
+        db.Producto.findAll({
+            where: {
+                nombre:{
+                    [op.substring] : busqueda
+                }
+            }
+        }).then(function(resultados){
+            res.render('resultadoBusqueda',{resultados})
+        })
       
     },
-
     agregarComentario: function (req,res) {
         if (req.session.usuarioLogueado == undefined) {
             res.redirect("/");
@@ -63,10 +73,19 @@ module.exports = {
         if (req.session.usuarioLogueado == undefined) {
             res.redirect("/");
         }
-       
+       db.Producto.create(
+           {
+             nombre: req.body.nombre,
+             marca: req.body.marca,
+             precio: req.body.precio,
+             img_url: req.body.imagen,
+             categoria: req.body.categoria,
+             usuario_id: req.session.usuarioLogueado.id
+           }
+        ).then(()=>res.redirect("/productos/misProductos"))
 
     },
-
+    
     misProductos: function (req, res) {
         if (req.session.usuarioLogueado == undefined) {
             res.redirect("/");
