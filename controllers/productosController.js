@@ -79,7 +79,7 @@ module.exports = {
              marca: req.body.marca,
              precio: req.body.precio,
              img_url: req.body.imagen,
-             categoria: req.body.categoria,
+             categoria_id: req.body.categoria,
              usuario_id: req.session.usuarioLogueado.id
            }
         ).then(()=>res.redirect("/productos/misProductos"))
